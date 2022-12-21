@@ -22,11 +22,6 @@ namespace Exercicios
     {
         static void Main(string[] args)
         {
-            //int[,] DistanciaCidades = new int[,] { {00, 15, 30, 05, 12 },
-            //                                       {15, 00, 10, 17, 28 },
-            //                                       {30, 10, 00, 03, 11 },
-            //                                       {05, 17, 03, 00, 80 },
-            //                                       {12, 28, 11, 80, 00 } };
 
             Console.WriteLine("Informe o numero de cidades:");
             var NumCidades = Console.ReadLine().ToInt();
