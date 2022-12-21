@@ -23,19 +23,6 @@ namespace Exercicios
     {
         static void Main(string[] args)
         {
-
-            //Console.WriteLine("Informe o numero de cidades:");
-            //var NumCidades = Console.ReadLine().ToInt();
-            //var  TabelaDistancia = new int[NumCidades, NumCidades];
-
-            //for (int i = 0; i < NumCidades; i++)
-            //{
-            //    for (int j = i+1; j < NumCidades; j++)
-            //    {
-            //        Console.WriteLine($"Informe a distância entre a cidade {i+1} e a cidade {j+1}");
-            //        TabelaDistancia[i,j] = TabelaDistancia[j, i] = Console.ReadLine().ToInt();
-            //    }
-            //}
             string diretorio = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string diretoriomatriz = diretorio + "\\matriz.txt";
             string[] lines = System.IO.File.ReadAllLines(diretoriomatriz);
