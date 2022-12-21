@@ -9,6 +9,7 @@
 //Crie um repositório público no GitHub e submeta o link para o seu repositório.
 
 
+using Exercicio_1____Logica_de_prog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,11 +22,24 @@ namespace Exercicios
     {
         static void Main(string[] args)
         {
-            int[,] DistanciaCidades = new int[,] { {00, 15, 30, 05, 12 },
-                                                   {15, 00, 10, 17, 28 },
-                                                   {30, 10, 00, 03, 11 },
-                                                   {05, 17, 03, 00, 80 },
-                                                   {12, 28, 11, 80, 00 } };
+            //int[,] DistanciaCidades = new int[,] { {00, 15, 30, 05, 12 },
+            //                                       {15, 00, 10, 17, 28 },
+            //                                       {30, 10, 00, 03, 11 },
+            //                                       {05, 17, 03, 00, 80 },
+            //                                       {12, 28, 11, 80, 00 } };
+
+            Console.WriteLine("Informe o numero de cidades:");
+            var NumCidades = Console.ReadLine().ToInt();
+            var  TabelaDistancia = new int[NumCidades, NumCidades];
+
+            for (int i = 0; i < NumCidades; i++)
+            {
+                for (int j = i+1; j < NumCidades; j++)
+                {
+                    Console.WriteLine($"Informe a distância entre a cidade {i+1} e a cidade {j+1}");
+                    TabelaDistancia[i,j] = TabelaDistancia[j, i] = Console.ReadLine().ToInt();
+                }
+            }
 
             int n = new int();
             int DistanciaTotal = 0;
@@ -41,7 +55,7 @@ namespace Exercicios
             {
                 int cidade1 = numeros[i];
                 int cidade2 = numeros[i + 1];
-                DistanciaTotal += DistanciaCidades[cidade2 - 1, cidade1 - 1];
+                DistanciaTotal += TabelaDistancia[cidade2 - 1, cidade1 - 1];
             }
             Console.WriteLine("A distancia total será: " + DistanciaTotal);
         }
