@@ -13,6 +13,7 @@ using Exercicio_1____Logica_de_prog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,28 +24,42 @@ namespace Exercicios
         static void Main(string[] args)
         {
 
-            Console.WriteLine("Informe o numero de cidades:");
-            var NumCidades = Console.ReadLine().ToInt();
-            var  TabelaDistancia = new int[NumCidades, NumCidades];
+            //Console.WriteLine("Informe o numero de cidades:");
+            //var NumCidades = Console.ReadLine().ToInt();
+            //var  TabelaDistancia = new int[NumCidades, NumCidades];
+
+            //for (int i = 0; i < NumCidades; i++)
+            //{
+            //    for (int j = i+1; j < NumCidades; j++)
+            //    {
+            //        Console.WriteLine($"Informe a distância entre a cidade {i+1} e a cidade {j+1}");
+            //        TabelaDistancia[i,j] = TabelaDistancia[j, i] = Console.ReadLine().ToInt();
+            //    }
+            //}
+            string diretorio = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string diretoriomatriz = diretorio + "\\matriz.txt";
+            string[] lines = System.IO.File.ReadAllLines(diretoriomatriz);
+            int NumCidades = lines.Length;
+            var TabelaDistancia = new int[NumCidades, NumCidades];
+            string diretoriocaminho = diretorio + "\\caminho.txt";
+            string[] caminho = System.IO.File.ReadAllLines(diretoriocaminho);
 
             for (int i = 0; i < NumCidades; i++)
             {
-                for (int j = i+1; j < NumCidades; j++)
+                var coluna = lines[i].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
+                for(int j=0; j < NumCidades; j++)
                 {
-                    Console.WriteLine($"Informe a distância entre a cidade {i+1} e a cidade {j+1}");
-                    TabelaDistancia[i,j] = TabelaDistancia[j, i] = Console.ReadLine().ToInt();
+                    TabelaDistancia[i,j] = coluna[j];
                 }
             }
+
+            int[] numeros = caminho[0].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
+
 
             int n = new int();
             int DistanciaTotal = 0;
             Stack<int> cidades = new Stack<int>();
             int contador = 0;
-            string caminho;
-            Console.WriteLine("Informe as cidades, separadas apenas por virgula:");
-            caminho = Console.ReadLine();
-
-            int[] numeros = caminho.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
 
             for (int i = 0; i < numeros.Length - 1; i++)
             {
