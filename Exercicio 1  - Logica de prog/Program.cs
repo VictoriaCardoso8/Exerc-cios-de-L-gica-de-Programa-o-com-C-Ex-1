@@ -16,6 +16,9 @@ using System.Linq;
 using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
+using CsvHelper;
+using CsvHelper.Configuration;
+using System.Globalization;
 
 namespace Exercicios
 {
@@ -23,38 +26,46 @@ namespace Exercicios
     {
         static void Main(string[] args)
         {
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                HasHeaderRecord = false,
+            };
             string diretorio = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string diretoriomatriz = diretorio + "\\matriz.txt";
-            string[] lines = System.IO.File.ReadAllLines(diretoriomatriz);
-            int NumCidades = lines.Length;
-            var TabelaDistancia = new int[NumCidades, NumCidades];
             string diretoriocaminho = diretorio + "\\caminho.txt";
-            string[] caminho = System.IO.File.ReadAllLines(diretoriocaminho);
+            using var caminho = new StreamReader(diretoriocaminho);
+            using var csvcaminho = new CsvParser(caminho, config);
+            using var matriz = new StreamReader(diretoriomatriz);
+            using var csvmatriz = new CsvParser(matriz, config);
+            var NumCidades = csvmatriz.Record.Length;
+            var TabelaDistancia = new int[NumCidades, NumCidades];
+
 
             for (int i = 0; i < NumCidades; i++)
             {
-                var coluna = lines[i].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
+                var linha = csvmatriz.Record;
                 for(int j=0; j < NumCidades; j++)
                 {
-                    TabelaDistancia[i,j] = coluna[j];
+                    TabelaDistancia[i,j] = int.Parse(linha[j]);
                 }
             }
 
-            int[] numeros = caminho[0].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
+            var numcaminhos = csvcaminho.Record.Length;
+            var numero = new int[numcaminhos];
+            numero = Array.ConvertAll(csvcaminho, c => int.Parse(c));
 
 
-            int n = new int();
-            int DistanciaTotal = 0;
+            var Distancia = 0;
             Stack<int> cidades = new Stack<int>();
             int contador = 0;
 
-            for (int i = 0; i < numeros.Length - 1; i++)
+            for (int i = 0; i < numero.Length - 1; i++)
             {
-                int cidade1 = numeros[i];
-                int cidade2 = numeros[i + 1];
-                DistanciaTotal += TabelaDistancia[cidade2 - 1, cidade1 - 1];
+                int cidade1 = numero[i];
+                int cidade2 = numero[i + 1];
+                Distancia += TabelaDistancia[cidade2 - 1, cidade1 - 1];
             }
-            Console.WriteLine("A distancia total será: " + DistanciaTotal);
+            Console.WriteLine("A distancia total será: " + Distancia);
         }
     }
 }
